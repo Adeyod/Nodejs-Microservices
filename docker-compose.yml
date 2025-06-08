@@ -6,7 +6,7 @@ services:
   api-gateway:
     build: ./api-gateway
     ports:
-      - '3000:3000'
+      - '4000:4000'
     env_file: ./api-gateway/.env
     depends_on:
       - redis
@@ -67,3 +67,5 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+
+  # 09:12:20

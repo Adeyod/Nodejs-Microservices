@@ -2,7 +2,7 @@
 FROM node:18-alpine
 
 # Set working directory
-WORKDIR /use/src/app
+WORKDIR /usr/src/app
 
 # Copy dependencies files
 COPY package*.json ./
@@ -13,8 +13,8 @@ RUN npm ci --only=production
 # Copy source code
 COPY . .
 
-# This tells Docker and other developers that your app runs on port 3000. NOTE: EXPOSE does not actually opens the port or publish it to your machine
-EXPOSE 3003
+# This tells Docker and other developers that your app runs on port 4000. NOTE: EXPOSE does not actually opens the port or publish it to your machine
+EXPOSE 4003
 
 # This tells Docker what command to run by default when the container starts
 CMD [ "node", "src/server.js" ]
