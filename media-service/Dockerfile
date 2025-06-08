@@ -13,10 +13,6 @@ RUN npm ci --only=production
 # Copy source code
 COPY . .
 
-# Copy wait script and make it executable. JUST ADDED THIS
-COPY wait-for-it.sh /wait-for-it.sh
-RUN chmod +x /wait-for-it.sh
-
 # This tells Docker and other developers that your app runs on port 4000. NOTE: EXPOSE does not actually opens the port or publish it to your machine
 EXPOSE 4003
 
