@@ -7,13 +7,14 @@ let channel = null;
 const EXCHANGE_NAME = 'facebook_events';
 
 const connectToRabbitMQ = async () => {
-  const maxRetries = 5;
+  const maxRetries = 10;
   const delay = 5000; // 5 seconds
   let attempts = 0;
 
   while (attempts < maxRetries) {
     try {
-      connection = await amqp.connect(process.env.RABBITMQ_URL);
+      const rabbitmqUrl = process.env.RABBITMQ_URL || 'amqp://localhost:5672';
+      connection = await amqp.connect(rabbitmqUrl);
       channel = await connection.createChannel();
 
       await channel.assertExchange(EXCHANGE_NAME, 'topic', { durable: false });
@@ -37,6 +38,20 @@ const connectToRabbitMQ = async () => {
     }
   }
 };
+
+// const connectToRabbitMQ = async () => {
+//   try {
+//     const rabbitmqUrl = process.env.RABBITMQ_URL || 'amqp://localhost:5672';
+//     connection = await amqp.connect(rabbitmqUrl);
+//     channel = await connection.createChannel();
+
+//     await channel.assertExchange(EXCHANGE_NAME, 'topic', { durable: false });
+//     logger.info('Connected to RabbitMQ');
+//     return channel;
+//   } catch (error) {
+//     logger.error('Error connecting to RabbitMQ', error);
+//   }
+// };
 
 const publishEvent = async (routingKey, message) => {
   if (!channel) {
